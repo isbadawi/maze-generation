@@ -28,10 +28,11 @@ class Maze(object):
             result.append((x, y - 1))
         if y != self.h - 1:
             result.append((x, y + 1))
-        return result
+        return tuple(result)
 
     def walls(self, c):
-        return [(c,n) for n in self.neighbors(c) if not self.connected(c,n)]
+        return tuple([(c,n) for n in self.neighbors(c) 
+                                  if not self.connected(c,n)])
 
     def connected(self, c1, c2):
         return c2 in self.graph.neighbors(c1)
