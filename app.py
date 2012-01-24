@@ -1,10 +1,11 @@
 import argparse
-import time
+import threading
 from inspect import isfunction
 
-from maze import Maze
-from io import Canvas, user_pressed_escape
-import generators
+from maze import Maze, generators
+from maze.visualizers import visualize_algorithm
+from io.canvas import Canvas
+from io.input import user_wants_to_stop
 
 def _build_parser():
     parser = argparse.ArgumentParser(
@@ -47,14 +48,11 @@ if __name__ == '__main__':
     maze = Maze(args.width, args.height)
     canvas = Canvas(args.width, args.height, args.cellsize)
     generator = getattr(generators, args.algorithm)
-
-    for node in maze.graph.nodes():
-        for neighbor in maze.neighbors(node):
-            maze.draw_line_between(canvas, node, neighbor, color=(0, 0, 0))
-
-    for c1, c2 in generator(maze):
-        maze.connect(c1, c2)
-        maze.draw_line_between(canvas, c1, c2)
-        if user_pressed_escape():
-            break
-        time.sleep(args.speed / 1000.0)
+    thread = threading.Thread(
+        target=visualize_algorithm, 
+        args=(maze, canvas, generator, args.speed / 1000.0)
+    )
+    thread.daemon = True
+    thread.start()
+    while not user_wants_to_stop():
+        pass
