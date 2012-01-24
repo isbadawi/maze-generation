@@ -1,2 +1,1 @@
 networkx==1.6
-pygame==1.9.1release
