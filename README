@@ -9,6 +9,3 @@ Algorithms can be added by writing functions in maze.generators. An
 implementation of an algorithm should yield edges (pairs of (x,y)
 coordinates) one-by-one. The function name automatically becomes one of the
 allowed choices for the --algorithm command line switch. 
-
-Uses pygame for drawing, but it's just lines and rectangles so there isn't
-much work involved in using something else...
