@@ -9,7 +9,7 @@ def aldous_broder(maze):
             yield (current, dest)
         current = dest
 
-def kruskal(maze):
+def prim(maze):
     start = random.choice(maze.graph.nodes())
     walls = maze.walls(start)
     while walls:
