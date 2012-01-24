@@ -28,7 +28,7 @@ if __name__ == '__main__':
     args = _build_parser().parse_args()
     maze = Maze(args.width, args.height)
     canvas = Canvas(args.width, args.height, args.cellsize)
-    for cell in maze._adjacent_to((0, 0)):
+    for cell in maze.neighbors((0, 0)):
         maze.connect(cell, (0, 0))
     maze.connect((0, 1), (1, 1))
     maze.draw(canvas)

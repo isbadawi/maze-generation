@@ -15,10 +15,10 @@ class Maze(object):
     def _in_bounds(self, *args):
         return all(0 <= x < self.w and 0 <= y < self.h for x, y in args)
 
-    def _adjacent(self, (x1, y1), (x2, y2)):
+    def adjacent(self, (x1, y1), (x2, y2)):
         return abs(x1 - x2) + abs(y1 - y2) == 1
 
-    def _adjacent_to(self, (x, y)):
+    def neighbors(self, (x, y)):
         result = []
         if x != 0:
             result.append((x - 1, y))
@@ -30,11 +30,11 @@ class Maze(object):
             result.append((x, y + 1))
         return result
 
-    def _connected(self, c1, c2):
+    def connected(self, c1, c2):
         return c2 in self.graph.neighbors(c1)
 
     def connect(self, c1, c2):
-        if not self._in_bounds(c1, c2) or not self._adjacent(c1, c2):
+        if not self._in_bounds(c1, c2) or not self.adjacent(c1, c2):
             raise InvalidEdge
         self.graph.add_edge(c1, c2)
 
@@ -52,6 +52,6 @@ class Maze(object):
     def draw(self, canvas):
         canvas.rect((0, 0), (canvas.width, canvas.height))
         for cell in self.graph.nodes():
-            for neighbor in self._adjacent_to(cell):
-                if not self._connected(cell, neighbor):
+            for neighbor in self.neighbors(cell):
+                if not self.connected(cell, neighbor):
                     self._draw_line_between(canvas, cell, neighbor)
