@@ -30,8 +30,14 @@ class Maze(object):
             result.append((x, y + 1))
         return result
 
+    def walls(self, c):
+        return [(c,n) for n in self.neighbors(c) if not self.connected(c,n)]
+
     def connected(self, c1, c2):
         return c2 in self.graph.neighbors(c1)
+
+    def reachable(self, c):
+        return any(self.connected(c, n) for n in self.neighbors(c))
 
     def connect(self, c1, c2):
         if not self._in_bounds(c1, c2) or not self.adjacent(c1, c2):

@@ -8,6 +8,7 @@ class Canvas(object):
         self.size = size
         pygame.init()
         self.screen = pygame.display.set_mode((width * size, height * size))
+        pygame.display.set_caption('Maze Generation Visualizer')
         self.rect((0, 0), (width, height))
 
     def line(self, (x1, y1), (x2, y2), color=(255, 255, 255)):
