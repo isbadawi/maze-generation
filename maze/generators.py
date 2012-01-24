@@ -21,7 +21,9 @@ def prim(maze):
         walls.remove(wall)
 
 def kruskal(maze):
-    walls = list(set(maze.walls(n) for n in maze.graph.nodes()))
+    walls = []
+    for node in maze.graph.nodes():
+        walls.extend(w for w in maze.walls(node) if w not in walls)
     cells = UnionFind()
     for c in maze.graph.nodes(): cells[c]
     random.shuffle(walls)

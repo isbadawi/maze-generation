@@ -31,8 +31,7 @@ class Maze(object):
         return tuple(result)
 
     def walls(self, c):
-        return tuple([(c,n) for n in self.neighbors(c) 
-                                  if not self.connected(c,n)])
+        return [(c,n) for n in self.neighbors(c) if not self.connected(c,n)]
 
     def connected(self, c1, c2):
         return c2 in self.graph.neighbors(c1)
