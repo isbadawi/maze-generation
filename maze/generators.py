@@ -1,4 +1,5 @@
 import random
+from maze import Maze
 from networkx.utils import UnionFind
 
 def aldous_broder(maze):
@@ -7,8 +8,9 @@ def aldous_broder(maze):
     while not all(maze.reachable(cell) for cell in maze.graph.nodes()):
         dest = random.choice(maze.neighbors(current))
         if not maze.reachable(dest):
-            yield (current, dest)
+            yield 'connect', (current, dest)
         current = dest
+aldous_broder.initial_maze = Maze.all_walls
 
 def prim(maze):
     start = random.choice(maze.graph.nodes())
@@ -16,9 +18,10 @@ def prim(maze):
     while walls:
         wall = random.choice(walls)
         if not maze.reachable(wall[1]):
-            yield wall
+            yield 'connect', wall
             walls.extend(maze.walls(wall[1]))
         walls.remove(wall)
+prim.initial_maze = Maze.all_walls
 
 def kruskal(maze):
     walls = []
@@ -29,5 +32,6 @@ def kruskal(maze):
     random.shuffle(walls)
     for c1, c2 in walls:
         if cells[c1] != cells[c2]:
-            yield (c1, c2)
+            yield 'connect', (c1, c2)
             cells.union(c1, c2)
+kruskal.initial_maze = Maze.all_walls

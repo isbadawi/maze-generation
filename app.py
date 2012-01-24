@@ -1,7 +1,7 @@
 import argparse
 from inspect import isfunction
 
-from maze import Maze, generators
+from maze import generators
 from maze.visualizers import visualize_algorithm
 from io.canvas import Canvas
 
@@ -43,7 +43,7 @@ def _build_parser():
 
 if __name__ == '__main__':
     args = _build_parser().parse_args()
-    maze = Maze(args.width, args.height)
     canvas = Canvas(args.width, args.height, args.cellsize)
     generator = getattr(generators, args.algorithm)
+    maze = generator.initial_maze(args.width, args.height)
     visualize_algorithm(maze, canvas, generator, args.speed / 1000.0)

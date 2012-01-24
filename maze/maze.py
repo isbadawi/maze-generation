@@ -12,6 +12,18 @@ class Maze(object):
             for j in range(self.h):
                 self.graph.add_node((i, j))
 
+    @classmethod
+    def all_walls(cls, width, height):
+        return cls(width, height)
+
+    @classmethod
+    def no_walls(cls, width, height):
+        maze = cls(width, height)
+        for node in maze.graph.nodes():
+            for neighbor in maze.neighbors(node):
+                maze.connect(node, neighbor)
+        return maze
+
     def _in_bounds(self, *args):
         return all(0 <= x < self.w and 0 <= y < self.h for x, y in args)
 
@@ -43,6 +55,17 @@ class Maze(object):
         if not self._in_bounds(c1, c2) or not self.adjacent(c1, c2):
             raise InvalidEdge
         self.graph.add_edge(c1, c2)
+
+    def disconnect(self, c1, c2):
+        if not c1 in self.neighbors(c2):
+            raise InvalidEdge
+        self.graph.remove_edge(c1, c2)
+
+    def draw(self, canvas):
+        for node in self.graph.nodes():
+            for neighbor in self.neighbors(node):
+                if not self.connected(node, neighbor):
+                    self.draw_line_between(canvas, node, neighbor, color='black')
 
     def draw_line_between(self, canvas, (x1, y1), (x2, y2), color='white'):
         if x1 == x2:
