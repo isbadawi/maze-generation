@@ -38,7 +38,8 @@ class Maze(object):
             raise InvalidEdge
         self.graph.add_edge(c1, c2)
 
-    def _draw_line_between(self, canvas, (x1, y1), (x2, y2)):
+    def draw_line_between(self, canvas, (x1, y1), (x2, y2), 
+                                color=(255, 255, 255)):
         if x1 == x2:
             y = max(y1, y2)
             from_ = (x1, y)
@@ -47,11 +48,4 @@ class Maze(object):
             x = max(x1, x2)
             from_ = (x, y1)
             to = (x, y1 + 1)
-        canvas.line(from_, to)
-        
-    def draw(self, canvas):
-        canvas.rect((0, 0), (canvas.width, canvas.height))
-        for cell in self.graph.nodes():
-            for neighbor in self.neighbors(cell):
-                if not self.connected(cell, neighbor):
-                    self._draw_line_between(canvas, cell, neighbor)
+        canvas.line(from_, to, color=color)
